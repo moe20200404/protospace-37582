@@ -5,7 +5,10 @@ class CommentsController < ApplicationController
     if comment.save
       redirect_to prototype_path(params[:prototype_id])
     else
-      render :create
+      @prototype = Prototype.find(params[:prototype_id])
+      @comments = @prototype.comments.includes(:user)
+      @comment = Comment.new
+      render template: "prototypes/show"
     end
   end
 
